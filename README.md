@@ -1,8 +1,6 @@
 # JSON  reporter for Codeception
 Codeception JSON  fromat reporter, can be used in parallel run.
 
-
-JSON Reporter
 ========
 
 This extension add another type of json report generator, since original one from PHPUnit is nor really suitble
