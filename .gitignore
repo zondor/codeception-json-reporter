@@ -1,0 +1,6 @@
+.tags
+.tags_sorted_by_file
+.idea/
+vendor/*
+composer.lock
+composer.phar

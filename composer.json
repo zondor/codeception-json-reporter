@@ -1,0 +1,34 @@
+{
+  "name": "zondor/codeception-json-reporter",
+  "description": "Json report generator, can be used in parallel run",
+  "keywords": [
+    "codeception",
+    "reporter",
+    "json",
+    "acceptance testing",
+    "functional testing",
+    "unit testing",
+    "tdd"
+  ],
+  "homepage": "https://github.com/zondor/codeception-json-reporter",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Deniss Afonicevs",
+      "email": "zondor.index@gmail.com",
+      "homepage": "https://github.com/zondor"
+    }
+  ],
+  "require": {
+    "codeception/codeception": "~2.1"
+  },
+  "require-dev": {
+    "codeception/codeception": "@dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "Codeception": "src"
+    }
+  }
+}
