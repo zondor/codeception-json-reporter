@@ -6,13 +6,14 @@ use Codeception\Step;
 
 class Json extends CodeceptionResultPrinter
 {
+    protected $version = 1;
     protected $wholeData = [];
     protected $suite = [];
     protected $scenario = [];
     protected $scenarioId = 0;
     protected $filePath;
     protected $timeTaken = 0;
-
+    protected $lastFailure;
     protected $failures = [];
 
     public function __construct($out = null)
@@ -23,13 +24,13 @@ class Json extends CodeceptionResultPrinter
 
     private function addSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        $this->wholeData['suite'][$suite->getName()] = [
+        $this->wholeData['suites'][$suite->getName()] = [
             'name'      => $suite->getName(),
             'groups'    => $suite->getGroups(),
             'scenarios' => [],
         ];
         $this->scenarioId = 0;
-        $this->scenario = &$this->wholeData['suite'][$suite->getName()]['scenarios'];
+        $this->scenario = &$this->wholeData['suites'][$suite->getName()]['scenarios'];
 
     }
 
@@ -105,7 +106,7 @@ class Json extends CodeceptionResultPrinter
                 'steps'          => $stepsBuffer,
                 'failed'         => !$success,
                 'failure'        => $this->lastFailure,
-                'time'           => $time,
+                'time'           => round($time, 3),
             ];
         $this->lastFailure = null;
     }
@@ -113,10 +114,11 @@ class Json extends CodeceptionResultPrinter
 
     protected function endRun()
     {
+        $this->wholeData['version'] = str_replace('\\', '-', __CLASS__)."-zondor-version:".$this->version;
         $this->wholeData['run'] = [
             'name'                => 'Codeception Results',
             'status'              => !$this->failed,
-            'time'                => $this->timeTaken,
+            'time'                => round($this->timeTaken, 3),
             'successfulScenarios' => $this->successful,
             'failedScenarios'     => $this->failed,
             'skippedScenarios'    => $this->skipped,
@@ -124,7 +126,7 @@ class Json extends CodeceptionResultPrinter
             'failures'            => $this->failures,
         ];
 
-        file_put_contents($this->filePath, json_encode($this->wholeData, JSON_BIGINT_AS_STRING));
+        file_put_contents($this->filePath, json_encode($this->wholeData));
     }
 
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
